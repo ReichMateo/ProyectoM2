@@ -1,0 +1,217 @@
+openapi: 3.0.3
+info:
+  title: MiniBlog API
+  version: 1.0.0
+  description: API REST para gestionar autores, posts y comentarios.
+servers:
+  - url: http://localhost:4000
+paths:
+  /authors:
+    get:
+      summary: List authors
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create author
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                bio:
+                  type: string
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+  /authors/{id}:
+    get:
+      summary: Get author by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+    put:
+      summary: Update author
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                bio:
+                  type: string
+      responses:
+        '200':
+          description: Updated
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+    delete:
+      summary: Delete author
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not found
+  /posts:
+    get:
+      summary: List posts
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, content, author_id]
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+                author_id:
+                  type: integer
+                published:
+                  type: boolean
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+  /posts/{id}:
+    get:
+      summary: Get post by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+    put:
+      summary: Update post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, content]
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+                published:
+                  type: boolean
+      responses:
+        '200':
+          description: Updated
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+    delete:
+      summary: Delete post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not found
+  /posts/author/{authorId}:
+    get:
+      summary: List posts by author
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Author not found
+  /comments:
+    get:
+      summary: List comments
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [content, post_id, author_id]
+              properties:
+                content:
+                  type: string
+                post_id:
+                  type: integer
+                author_id:
+                  type: integer
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad request
