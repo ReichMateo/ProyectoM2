@@ -9,7 +9,7 @@ if (!process.env.DATABASE_URL) {
 }
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/miniblog',
 });
 
 pool.on('error', (err) => {
