@@ -3,13 +3,14 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/miniblog';
+
 if (!process.env.DATABASE_URL) {
-  console.error('DATABASE_URL environment variable is not set. Please create a .env file based on .env.example');
-  process.exit(1);
+  console.warn('DATABASE_URL environment variable is not set. Using fallback default connection string. Create a .env file based on .env.example if needed.');
 }
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/miniblog',
+  connectionString,
 });
 
 pool.on('error', (err) => {
